@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>편히 쉬세요</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <!-- Bootstrap 4.5 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            /* 배경 색상 및 그라데이션 변경 */
+            background: linear-gradient(135deg, #E1F5FE, #E3F2FD);
+        }
+
+        /* 제목 섹션 스타일 */
+        .title-section {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        /* 상단부에 부드러운 그래픽 요소 추가 (원형 그라데이션) */
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.7), rgba(255,255,255,0));
+            filter: blur(80px);
+            z-index: -1;
+        }
+
+        .title-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .title-link:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .title-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-icon {
+            font-size: 3rem;
+            color: #2ecc71;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        .title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #111;
+            text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out forwards;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title:hover {
+            text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 카드 스타일 */
+        .pricing-card {
+            max-width: 450px;
+            margin: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #ffffff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #ecf0f1;
+            font-size: 1.8em;
+            font-weight: 700;
+            padding: 20px;
+            text-align: center;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-label, .fw-semibold {
+            font-weight: 600;
+        }
+
+        .form-select, .form-check-input {
+            font-size: 0.9rem;
+        }
+
+        .form-select:focus,
+        .form-check-input:focus {
+            box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
+            border-color: #27ae60;
+        }
+
+        .btn-primary {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e8e50;
+            transform: translateY(-2px);
+        }
+
+        .mb-4 i {
+            vertical-align: middle;
+        }
+
+        .form-check-label {
+            margin-left: 5px;
+        }
+
+        @media (max-width: 576px) {
+            .title {
+                font-size: 2em;
+            }
+
+            .card-header {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 제목 섹션 -->
+    <div class="title-section">
+        <a href="/" class="title-link">
+            <div class="title-wrapper">
+                <i class="fas fa-tree title-icon"></i>
+                <h1 class="title">편히 쉬세요</h1>
+            </div>
+        </a>
+    </div>
+
+    <!-- 카드 영역 -->
+    <div class="container mb-5">
+        <div class="card pricing-card">
+            <div class="card-header">조건 검색</div>
+            <div class="card-body">
+                <form id="searchForm" method="get" action="{{ url_for('get_parks') }}">
+                    <div class="mb-4">
+                        <label for="sunlight" class="form-label fw-semibold">
+                            <i class="fas fa-sun text-warning me-2"></i>햇빛 선호도:
+                        </label>
+                        <select class="form-select" name="sunlight" id="sunlight">
+                            <option value="">선택하세요</option>
+                            <option value="많이 받고 싶음">많이 받고 싶음</option>
+                            <option value="그늘 선호">그늘 선호</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="fw-semibold d-block mb-2">
+                            <i class="fas fa-cogs text-primary me-2"></i>편의시설:
+                        </span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="amenities" value="벤치" id="amenity1">
+                            <label class="form-check-label" for="amenity1">벤치</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="amenities" value="화장실" id="amenity2">
+                            <label class="form-check-label" for="amenity2">화장실</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="amenities" value="놀이터" id="amenity3">
+                            <label class="form-check-label" for="amenity3">놀이터</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="fw-semibold d-block mb-2">
+                            <i class="fas fa-map-marker-alt text-danger me-2"></i>산책로:
+                        </span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="trails" value="산책로" id="trail1">
+                            <label class="form-check-label" for="trail1">산책로 있음</label>
+                        </div>
+                    </div>
+
+                    <!-- 사용자 위치 (숨김필드) -->
+                    <input type="hidden" name="user_lat" id="user_lat">
+                    <input type="hidden" name="user_lon" id="user_lon">
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>검색
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 위치 스크립트 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('user_lat').value = position.coords.latitude;
+                    document.getElementById('user_lon').value = position.coords.longitude;
+                }, function(error) {
+                    console.error("위치 정보를 가져올 수 없습니다:", error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                });
+            } else {
+                console.log("이 브라우저에서는 위치정보를 지원하지 않습니다.");
+            }
+        });
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
